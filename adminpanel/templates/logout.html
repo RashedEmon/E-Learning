@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard - BlogAdmin</title>
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark p-0">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">BlogAdmin</a>
+            <button class="navbar-toggler" data-toggle="collapse" date-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item px-2">
+                        <a href="index.html" class="nav-link">Dashboard</a>
+                    </li>
+                    <li class="nav-item px-2">
+                        <a href="posts.html" class="nav-link">Post</a>
+                    </li>
+                    <li class="nav-item px-2">
+                        <a href="categories.html" class="nav-link">Categories</a>
+                    </li>
+                    <li class="nav-item px-2">
+                        <a href="users.html" class="nav-link">Users</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a href="regstation.html" class="nav-link"><i class="fa fa-user-times"></i> Registation</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- posts -->
+    <section id="posts">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mx-auto mt-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fa fa-login"></i>
+                            <h4>Login</h4>
+                        </div>
+                        <div class="card-body">
+                            <form action="">
+                                <div class="form-group">
+                                    <label for="title">Email</label>
+                                    <input type="email" placeholder="Enter email" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="title">Password</label>
+                                    <input type="password" placeholder="Enter password" class="form-control">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-success"> Login</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- footer -->
+    <footer id="main-footer" class="bg-dark text-white mt-5 p-5">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <p class="lead text-center">
+                        Copyright &copy;AdminBlog 2019
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Javascript Inlusion -->
+    <script src=" js/jquery.min.js "></script>
+    <script src=" js/popper.min.js "></script>
+    <script src=" js/bootstrap.min.js "></script>
+    <script src=" https://cdn.ckeditor.com/ckeditor5/12.3.1/classic/ckeditor.js "></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .then(editor => {
+                console.log(editor);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+</body>
+
+</html>

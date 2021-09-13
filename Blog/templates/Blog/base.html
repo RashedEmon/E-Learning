@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <title>Learn SQA With Rashidul</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="{% static 'Blog/css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'Blog/css/App.css' %}" />
+  </head>
+  <body>
+    {% block content %} {% endblock content %}
+  </body>
+  {% comment %}
+  <script>
+    var items = document.querySelectorAll(".tgle");
+
+    items.forEach((item) => {
+      item.addEventListener(`click`, (event) => {
+        document.getElementById("sidebarCollapse").click();
+      });
+    });
+  </script>
+  {% endcomment %}
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
+  <!-- Float Btn -->
+
+  <script src="{% static 'Blog/js/App.js' %}"></script>
+  <script src="{% static 'Blog/js/jquery.min.js' %}"></script>
+  <script src="{% static 'Blog/js/popper.js' %}"></script>
+  <script src="{% static 'Blog/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'Blog/js/main.js' %}"></script>
+</html>

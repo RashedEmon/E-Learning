@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Dashboard -Admin</title>
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <script src="https://cdn.ckeditor.com/ckeditor5/28.0.0/classic/ckeditor.js"></script>
+  </head>
+
+  <body>
+    <h5 id="notification" class="alert bg-success" style="position: absolute; top: 10%; left: 35%;right: 35%; display:none;z-index: 100;color: white;">notification</h5>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark p-0">
+      <div class="container">
+        <a href="index.html" class="navbar-brand">BlogAdmin</a>
+        <button
+          class="navbar-toggler"
+          data-toggle="collapse"
+          date-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item px-2">
+              <a href="/admin" class="nav-link active">Dashboard</a>
+            </li>
+            <li class="nav-item px-2">
+              <a href="./posts.html" class="nav-link">Post</a>
+            </li>
+            <li class="nav-item px-2">
+              <a href="{% url 'subject-list' %}" class="nav-link">Subject</a>
+            </li>
+            <li class="nav-item px-2">
+              <a href="./users.html" class="nav-link">Users</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown mr-3">
+              <a
+                href="#"
+                class="nav-link dropdown-toggle"
+                data-toggle="dropdown"
+                ><i class="fa fa-user"></i>Welcome {{user}}</a
+              >
+              <div class="dropdown-menu">
+                <a href="./profile.html" class="dropdown-item">
+                  <i class="fa fa-user circle"></i> Profile
+                </a>
+                <a href="./settings.html" class="dropdown-item">
+                  <i class="fa fa-gear"></i> Setting
+                </a>
+              </div>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a href="./logout.html" class="nav-link"
+                ><i class="fa fa-user-times"></i> Logout</a
+              >
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a href="./login.html" class="nav-link"
+                ><i class="fa fa-user-times"></i> Login</a
+              >
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <header id="main-header" class="py-2 bg-primary text-white">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <h1><i class="fa fa-gear"></i> Dashboard</h1>
+          </div>
+        </div>
+      </div>
+    </header>
+    <section id="action" class="py-4 mb-4 ng-light">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-2">
+            <a
+              href="#"
+              class="btn btn-primary btn-block"
+              data-toggle="modal"
+              data-target="#addPostModal"
+            >
+              <i class="fa fa-plus"></i> Add Post
+            </a>
+          </div>
+
+          <div class="col-md-2">
+            <a
+              href="#"
+              class="btn btn-success btn-block"
+              data-toggle="modal"
+              data-target="#addSubjectModal"
+            >
+              <i class="fa fa-plus"></i> Add Subject
+            </a>
+          </div>
+
+          {% comment %}
+          <div class="col-md-2">
+            <a
+              href="#"
+              class="btn btn-primary btn-block"
+              data-toggle="modal"
+              data-target="#addPostModal"
+            >
+              <i class="fa fa-plus"></i> Add SubPost
+            </a>
+          </div>
+          {% endcomment %}
+
+          <div class="col-md-2">
+            <a
+              href="#"
+              class="btn btn-success btn-block"
+              data-toggle="modal"
+              data-target="#addTopicModal"
+            >
+              <i class="fa fa-plus"></i> Add Topic
+            </a>
+          </div>
+
+          <div class="col-md-4">
+            <a
+              href="#"
+              class="btn btn-warning btn-block"
+              data-toggle="modal"
+              data-target="#addUserModal"
+            >
+              <i class="fa fa-plus"></i> Add User
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- posts -->
+    <section id="posts">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-9">
+            <div class="card">
+              <div class="card-header">
+                <h4>Latest Post</h4>
+              </div>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Subject</th>
+                    <th>Topic</th>
+                    <th>Date Posted</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for content in posts %}
+                  <tr>
+                    <td scope="row">{{forloop.counter}}</td>
+                    <td>{{content.sub_title}}</td>
+                    <td>{{content.subject}}</td>
+                    <td>{{content.topic}}</td>
+                    <td>{{content.published_date}}</td>
+                    <td>
+                      <a href="{{content.get_absolute_url}}" class="btn btn-secondary">
+                        <i class="fa fa-angle-double-right"></i> Details
+                      </a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              
+            </div>
+
+          </div>
+          <div class="col-md-3">
+            <div class="card text-center bg-primary text-white mb-3">
+              <div class="card-body">
+                <h3>Posts</h3>
+                <h1 class="display-4"><i class="fa fa-pencil"></i>{{num_of_post}}</h1>
+                <a
+                  href="posts.html"
+                  class="btn btn-outline-light btn-sm"
+                  id="btn-view"
+                  >View</a
+                >
+              </div>
+            </div>
+            <div class="card text-center bg-success text-white mb-3">
+              <div class="card-body">
+                <h3>Subjects</h3>
+                <h1 class="display-4"><i class="fa fa-folder-open-o"></i>{{subjects.count}}</h1>
+                <a
+                  href="{% url 'subject-list' %}"
+                  class="btn btn-outline-light btn-sm"
+                  id="btn-view"
+                  >View</a
+                >
+              </div>
+            </div>
+            <div class="card text-center bg-warning text-white mb-3">
+              <div class="card-body">
+                <h3>User</h3>
+                <h1 class="display-4"><i class="fa fa-users"></i> {{num_of_user}}</h1>
+                <a
+                  href="{% url 'user-list' %}"
+                  class="btn btn-outline-light btn-sm"
+                  id="btn-view"
+                  >View</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- footer -->
+    <footer id="main-footer" class="bg-dark text-white mt-5 p-5">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <p class="lead text-center">Copyright &copy;AdminBlog 2019</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Modals -->
+    <!-- Post Modal -->
+    <div class="modal fade" id="addPostModal">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title">Add Post</h5>
+            <button class="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="addPost/" method="POST">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" name="title" class="form-control" required />
+              </div>
+              <div class="form-group">
+                <label for="subject">Subject</label>
+                <select name="subject" id="TopicSubject" class="form-control">
+                  <option value="">select</option>
+                  {% for subject in subjects %}
+                  <option value="{{subject.id}}">{{subject.subject}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="topic">Topic</label>
+                <select name="topic" id="topic" class="form-control">
+
+                </select>
+              </div>
+
+              <!-- <div class="form-group">
+                <label for="file">Image Upload</label>
+                <input
+                  type="file"
+                  name=""
+                  id=""
+                  class="form-control-file"
+                  required
+                />
+                <small class="form-text text-muted">Max Size 3mb</small>
+              </div> -->
+
+              <div class="form-group green-border-focus">
+                <label for="body">Content</label>
+                
+                <textarea
+                  id="editor"
+                  name="editor"
+                  class="form-control rounded-0"
+                  rows="5"
+                ></textarea>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal">
+                  Close
+                </button>
+
+                <input
+                  type="submit"
+                  class="btn btn-primary"
+                  id="save"
+                  value="Save Changes"
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Subject Modal -->
+    <div class="modal fade" id="addSubjectModal">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header bg-success text-white">
+            <h5 class="modal-title">Add Subject</h5>
+            <button class="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="./subject/add" method="POST">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="subject">Subject</label>
+                <input
+                id="getSubject"
+                  type="text"
+                  name="subject"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal">
+                  Close
+                </button>
+                <input
+                  type="submit"
+                  class="btn btn-success"
+                  value="Save Changes"
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- topic modal -->
+    <div class="modal fade" id="addTopicModal">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header bg-success text-white">
+            <h5 class="modal-title">Add Topic</h5>
+            <button id="topic-modal-close" class="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="" id="topicForm" method="POST">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="subject">Subject</label>
+                <select
+                  name="subject"
+                  id="subject"
+                  class="form-control"
+                  required
+                >
+                <option value="">select</option>
+                {% for subject in subjects %}
+                <option value="{{subject.id}}">{{subject.subject}}</option>
+                {% endfor %}
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="topic">Topic</label>
+                <input id="Topic" type="text" class="form-control" required />
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal">
+                  Close
+                </button>
+                <button id="addTopic" class="btn btn-success">Save Changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Modal -->
+    <div class="modal fade" id="addUserModal">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header bg-warning text-white">
+            <h5 class="modal-title">Add User</h5>
+            <button class="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="." method="POST">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" class="form-control" required />
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" class="form-control" required />
+              </div>
+              <div class="form-group">
+                <label for="password1">Password</label>
+                <input
+                  type="text"
+                  id="password1"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="password2">Password again</label>
+                <input
+                  type="text"
+                  id="password2"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal">
+                  Close
+                </button>
+                <input
+                  type="submit"
+                  class="btn btn-warning"
+                  value="Save Changes"
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Javascript Inlusion -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script>
+      ClassicEditor.create(document.querySelector("#editor"))
+        .then((editor) => {
+          console.log(editor);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
+      document
+        .getElementById("TopicSubject")
+        .addEventListener("change", (event) => {
+          const index = event.target.options.selectedIndex;
+          const value = event.target.options[index];
+
+          const xhr = new XMLHttpRequest();
+          xhr.open("GET", `topiclist/?subject=${value.innerText}`);
+          xhr.setRequestHeader("Content-type", "application/json");
+          xhr.send();
+
+          var topiclist;
+          xhr.onload = () => {
+            if (xhr.status >= 200 && xhr.status <= 400) {
+              addTopic(
+                document.getElementById("topic"),
+                JSON.parse(xhr.responseText)
+              );
+            } else {
+              console.log("something wrong happend!");
+            }
+          };
+          xhr.onerror = () => {
+            console.log("check your internet connectivity");
+          };
+        });
+      function addTopic(parentElement, data) {
+        parentElement.innerHTML = "";
+
+        data.forEach((topic) => {
+          let childElement = createElement("option", {
+            value: topic.fields.subject,
+          });
+          childElement.innerText = topic.fields.title;
+          parentElement.appendChild(childElement);
+        });
+      }
+      function createElement(name, obj) {
+        let element = document.createElement(name);
+        Object.keys(obj).forEach((key) => {
+          element.setAttribute(key, obj[key]);
+        });
+        return element;
+      }
+    
+    
+    document.getElementById('addTopic').addEventListener('click',(event)=>{
+      event.preventDefault();
+      saveTopic(document.getElementById('Topic').value,document.getElementById('subject').value)
+    })
+    
+    function saveTopic(data,subjectid){
+        const xhr = new XMLHttpRequest();
+        
+        xhr.open('POST', 'addTopic/');
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken')); 
+        xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
+        
+        xhr.send(`subject=${subjectid}&topic=${data}`);
+
+        xhr.onload=()=>{
+          document.getElementById('topic-modal-close').click();
+          document.getElementById('notification').style.display='block';
+          document.getElementById('notification').innerText=xhr.responseText;
+          setTimeout(()=>{
+            document.getElementById('notification').style.display='none';
+          },3000);
+        }
+    }
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+
+  function initXmlRequest(method,url,data){
+   const xhr = new XMLHttpRequest();
+      if(method=='POST'){
+        xhr.open(method,url);
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken')); 
+        xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
+        xhr.send(finalurl(data));
+      }else{
+        xhr.open(method,finalurl(data,url));
+        xhr.send();
+      }
+      xhr.onload=()=>{
+        if(xhr.status>=200 && xhr.status<400){
+          return xhr.responseText;
+        }else{
+          return 'error';
+        }
+      }
+  }
+  const finalurl= (data,url)=>{
+    new_url = `${url}?`;
+    if(typeof(url) == 'undefined')
+        new_url='';
+
+    Object.keys(data).forEach((key)=>{
+      new_url+=`${key}=${data[key]}&`;
+    })
+    new_url=new_url.substring(0,new_url.length-1);
+    return new_url;
+  }
+
+  //initialize ajax get request
+    </script>
+  </body>
+</html>

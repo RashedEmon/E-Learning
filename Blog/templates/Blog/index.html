@@ -1,0 +1,50 @@
+{% extends './base.html' %} 
+{% load index %} 
+{% block content %} 
+
+{% comment %}
+{% for title in titles %}
+<ul>
+  <li>
+    <a href="{{title.get_absolute_url}}">{{title}}</a>
+    <ul>
+      {% for item in sub_titles|index:forloop.counter0 %}
+      <li><a href="{{item.get_absolute_url}}">{{item}}</a></li>
+      {% endfor %}
+    </ul>
+  </li>
+</ul>
+{% endfor %} 
+{% endcomment %} 
+
+
+<div class="wrapper d-flex align-items-stretch">
+{% include './nav.html' %}
+{% comment %}
+back to top button
+{% endcomment %} 
+
+<button
+data-aos="fade-up"
+type="button"
+class="btn btn-circle btn-primary btn-floating btn-lg"
+id="btn-back-to-top"
+>
+<i class="fa fa-arrow-circle-up fa-lg"></i>
+</button>
+
+{% comment %}
+back to top button
+{% endcomment %} 
+  <div id="content" class="p-4 p-md-5 pt-5">
+    {% for Content in Contents %}
+    <div data-aos="fade-right" id="whatistesting">
+      <h4>{{Content.sub_title}}</h4>
+        <hr />
+          <p>{{Content.content}}</p>
+        <br />
+    </div>
+    {% endfor %}
+  </div> 
+</div>
+{% endblock content %}
